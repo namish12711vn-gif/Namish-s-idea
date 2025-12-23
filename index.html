@@ -1,92 +1,154 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Namish's School</title>  <!-- Google Font -->  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namish's School</title>
 
-    .card {
-      background: white;
-      width: 90%;
-      max-width: 400px;
-      padding: 30px 20px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-    h1 {
-      margin-bottom: 10px;
-      font-weight: 700;
-      color: #333;
-    }
+<style>
+:root {
+  --bg: linear-gradient(135deg, #667eea, #764ba2);
+  --card: rgba(255,255,255,0.9);
+  --text: #222;
+}
 
-    p {
-      margin-bottom: 25px;
-      color: #666;
-      font-size: 14px;
-    }
+body.dark {
+  --bg: linear-gradient(135deg, #141e30, #243b55);
+  --card: rgba(20,20,20,0.9);
+  --text: #eee;
+}
 
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 15px;
-      margin: 15px 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
+  transition: 0.4s;
+}
 
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-    }
+.card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  width: 90%;
+  max-width: 430px;
+  padding: 30px 22px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: slideUp 0.8s ease;
+  color: var(--text);
+}
 
-    .youtube { background: #ff0000; }
-    .facebook { background: #1877f2; }
-    .instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af); }
+@keyframes slideUp {
+  from {opacity:0; transform: translateY(40px);}
+  to {opacity:1; transform: translateY(0);}
+}
 
-    footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #999;
-    }
-  </style></head>
-<body>  <div class="card">
-    <h1>R.D.Khosla DAV Model Sr.Sec.Schoo</h1>
-    <p>Connect with us on social media</p><a class="btn youtube" href="https://www.youtube.com/@rdkdavschoolofficial" target="_blank">
-  ▶ YouTube
-</a>
+h1 {
+  font-size: 22px;
+  margin: 10px 0 6px;
+}
 
-<a class="btn facebook" href="https://www.facebook.com/RDKDAVSchoolOfficial" target="_blank">
-  📘 Facebook
-</a>
+p {
+  font-size: 14px;
+  opacity: 0.8;
+}
 
-<a class="btn instagram" href="https://www.instagram.com/rdkdavschoolofficial/" target="_blank">
-  📸 Instagram
-</a>
+.section {
+  margin: 22px 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-<a class="btn instagram" href="https://www.instagram.com/itz_namish.12/" target="_blank">👤 Inventor: Namish</a>
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 14px;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.25s;
+  cursor: pointer;
+}
 
-<a class="btn facebook" href="https://www.facebook.com/NamishProject" target="_blank">🌐 Inventor on Facebook</a>
+.btn:hover {transform: translateY(-3px);}
 
-<a class="btn youtube" href="https://www.youtube.com/@Namish_Sumit" target="_blank">🎥 Inventor on YouTube</a>
+.youtube {background:#ff0000;}
+.facebook {background:#1877f2;}
+.instagram {background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af);}
+.gray {background:#555;}
 
-<footer>© 2025 Our School</footer>
+.toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
 
-  </div></body>
+footer {
+  margin-top: 15px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.qr img {
+  margin-top: 10px;
+  width: 130px;
+}
+</style>
+</head>
+
+<body>
+<div class="toggle" onclick="toggleMode()">🌙</div>
+
+<div class="card">
+  <h1>R.D. Khosla DAV Model Sr. Sec. School</h1>
+  <p>Official Social & Project Links</p>
+
+  <div class="section">🏫 SCHOOL</div>
+
+  <a class="btn youtube" href="https://www.youtube.com/@rdkdavschoolofficial" target="_blank">▶ YouTube</a>
+  <a class="btn facebook" href="https://www.facebook.com/RDKDAVSchoolOfficial" target="_blank">📘 Facebook</a>
+  <a class="btn instagram" href="https://www.instagram.com/rdkdavschoolofficial/" target="_blank">📸 Instagram</a>
+
+  <div class="section">👨‍💻 INVENTOR</div>
+
+  <a class="btn instagram" href="https://www.instagram.com/itz_namish.12/" target="_blank">👤 Namish</a>
+  <a class="btn facebook" href="https://www.facebook.com/NamishProject" target="_blank">🌐 Project Page</a>
+  <a class="btn youtube" href="https://www.youtube.com/@Namish_Sumit" target="_blank">🎥 YouTube</a>
+
+  <div class="section">📊 INFO</div>
+
+  <div id="count">Visitors: 0</div>
+
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com" alt="QR">
+    <p>Scan to open site</p>
+  </div>
+
+  <footer>© 2025 | Built by Namish</footer>
+</div>
+
+<script>
+function toggleMode() {
+  document.body.classList.toggle("dark");
+}
+
+let visits = localStorage.getItem("visits") || 0;
+visits++;
+localStorage.setItem("visits", visits);
+document.getElementById("count").innerText = "Visitors: " + visits;
+</script>
+
+</body>
 </html>
