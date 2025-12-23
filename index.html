@@ -3,151 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Namish's School</title>
+<title>NEXUS-X | Command Center</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg: linear-gradient(135deg, #667eea, #764ba2);
-  --card: rgba(255,255,255,0.9);
-  --text: #222;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top, #0f2027, #000);
+  font-family:'Orbitron',sans-serif;
+  color:#0ff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-body.dark {
-  --bg: linear-gradient(135deg, #141e30, #243b55);
-  --card: rgba(20,20,20,0.9);
-  --text: #eee;
+.container{
+  width:95%;
+  max-width:420px;
+  border:2px solid #0ff;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 0 40px #0ff;
+  background:rgba(0,0,0,0.7);
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--bg);
-  transition: 0.4s;
+h1{
+  text-align:center;
+  margin:0;
+  font-size:22px;
 }
 
-.card {
-  background: var(--card);
-  backdrop-filter: blur(12px);
-  width: 90%;
-  max-width: 430px;
-  padding: 30px 22px;
-  border-radius: 22px;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  animation: slideUp 0.8s ease;
-  color: var(--text);
+.status{
+  text-align:center;
+  font-size:12px;
+  margin-bottom:15px;
+  color:#0f0;
 }
 
-@keyframes slideUp {
-  from {opacity:0; transform: translateY(40px);}
-  to {opacity:1; transform: translateY(0);}
+.btn{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  background:#111;
+  color:#0ff;
+  cursor:pointer;
+  border:1px solid #0ff;
 }
 
-h1 {
-  font-size: 22px;
-  margin: 10px 0 6px;
+.btn:hover{
+  background:#0ff;
+  color:#000;
 }
 
-p {
-  font-size: 14px;
-  opacity: 0.8;
+.terminal{
+  background:#000;
+  border:1px solid #0ff;
+  border-radius:10px;
+  padding:10px;
+  margin-top:15px;
+  font-size:12px;
+  height:120px;
+  overflow:auto;
 }
 
-.section {
-  margin: 22px 0 10px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 14px;
-  margin: 12px 0;
-  border-radius: 14px;
-  color: white;
-  font-weight: 600;
-  text-decoration: none;
-  transition: 0.25s;
-  cursor: pointer;
-}
-
-.btn:hover {transform: translateY(-3px);}
-
-.youtube {background:#ff0000;}
-.facebook {background:#1877f2;}
-.instagram {background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af);}
-.gray {background:#555;}
-
-.toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-footer {
-  margin-top: 15px;
-  font-size: 11px;
-  opacity: 0.7;
-}
-
-.qr img {
-  margin-top: 10px;
-  width: 130px;
+input{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  background:#000;
+  border:1px solid #0ff;
+  color:#0ff;
+  border-radius:8px;
+  font-family:'Orbitron';
 }
 </style>
 </head>
 
 <body>
-<div class="toggle" onclick="toggleMode()">🌙</div>
+<div class="container">
 
-<div class="card">
-  <h1>R.D. Khosla DAV Model Sr. Sec. School</h1>
-  <p>Official Social & Project Links</p>
+<h1>NEXUS-X</h1>
+<div class="status">SYSTEM ONLINE • INVENTOR: NAMISH</div>
 
-  <div class="section">🏫 SCHOOL</div>
+<button class="btn" onclick="openLink('https://www.youtube.com/@rdkdavschoolofficial')">▶ School YouTube</button>
+<button class="btn" onclick="openLink('https://www.facebook.com/RDKDAVSchoolOfficial')">📘 School Facebook</button>
+<button class="btn" onclick="openLink('https://www.instagram.com/rdkdavschoolofficial/')">📸 School Instagram</button>
 
-  <a class="btn youtube" href="https://www.youtube.com/@rdkdavschoolofficial" target="_blank">▶ YouTube</a>
-  <a class="btn facebook" href="https://www.facebook.com/RDKDAVSchoolOfficial" target="_blank">📘 Facebook</a>
-  <a class="btn instagram" href="https://www.instagram.com/rdkdavschoolofficial/" target="_blank">📸 Instagram</a>
+<button class="btn" onclick="openLink('https://www.youtube.com/@Namish_Sumit')">🎥 Inventor YouTube</button>
 
-  <div class="section">👨‍💻 INVENTOR</div>
+<div class="terminal" id="terminal">
+> System initialized...<br>
+> Awaiting command...
+</div>
 
-  <a class="btn instagram" href="https://www.instagram.com/itz_namish.12/" target="_blank">👤 Namish</a>
-  <a class="btn facebook" href="https://www.facebook.com/NamishProject" target="_blank">🌐 Project Page</a>
-  <a class="btn youtube" href="https://www.youtube.com/@Namish_Sumit" target="_blank">🎥 YouTube</a>
+<input placeholder="Type command..." onkeydown="handleCommand(event)">
 
-  <div class="section">📊 INFO</div>
-
-  <div id="count">Visitors: 0</div>
-
-  <div class="qr">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com" alt="QR">
-    <p>Scan to open site</p>
-  </div>
-
-  <footer>© 2025 | Built by Namish</footer>
 </div>
 
 <script>
-function toggleMode() {
-  document.body.classList.toggle("dark");
+function openLink(url){
+  log("> Opening link...");
+  window.open(url,'_blank');
 }
 
-let visits = localStorage.getItem("visits") || 0;
-visits++;
-localStorage.setItem("visits", visits);
-document.getElementById("count").innerText = "Visitors: " + visits;
+function log(text){
+  const t=document.getElementById("terminal");
+  t.innerHTML+=text+"<br>";
+  t.scrollTop=t.scrollHeight;
+}
+
+function handleCommand(e){
+  if(e.key==="Enter"){
+    const cmd=e.target.value.toLowerCase();
+    log("> "+cmd);
+    e.target.value="";
+
+    if(cmd.includes("inventor")){
+      log("Inventor: Namish • Student Innovator");
+    }else if(cmd.includes("youtube")){
+      openLink("https://www.youtube.com/@rdkdavschoolofficial");
+    }else if(cmd.includes("help")){
+      log("Commands: inventor, youtube, facebook, instagram");
+    }else{
+      log("Unknown command.");
+    }
+  }
+}
 </script>
 
 </body>
