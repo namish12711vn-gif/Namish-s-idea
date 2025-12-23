@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXUS-X | Command Center</title>
+<title>NEXUS-X | Intelligent Command System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
@@ -12,69 +12,71 @@
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle at top, #0f2027, #000);
+  background:black;
   font-family:'Orbitron',sans-serif;
   color:#0ff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  overflow:hidden;
 }
 
+/* 3D CANVAS */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* UI */
 .container{
   width:95%;
   max-width:420px;
+  margin:auto;
+  margin-top:20px;
   border:2px solid #0ff;
   border-radius:20px;
   padding:20px;
+  background:rgba(0,0,0,0.75);
   box-shadow:0 0 40px #0ff;
-  background:rgba(0,0,0,0.7);
 }
 
-h1{
-  text-align:center;
-  margin:0;
-  font-size:22px;
-}
-
+h1{text-align:center;margin:0}
 .status{
   text-align:center;
   font-size:12px;
-  margin-bottom:15px;
   color:#0f0;
+  margin-bottom:10px;
 }
 
 .btn{
   width:100%;
   padding:14px;
-  margin:10px 0;
-  border:none;
-  border-radius:10px;
-  font-size:15px;
-  background:#111;
+  margin:8px 0;
+  background:#000;
   color:#0ff;
-  cursor:pointer;
   border:1px solid #0ff;
+  border-radius:10px;
+  font-size:14px;
+  cursor:pointer;
 }
-
 .btn:hover{
   background:#0ff;
   color:#000;
 }
 
 .terminal{
+  margin-top:10px;
   background:#000;
   border:1px solid #0ff;
   border-radius:10px;
   padding:10px;
-  margin-top:15px;
+  height:140px;
   font-size:12px;
-  height:120px;
   overflow:auto;
 }
 
 input{
   width:100%;
-  margin-top:10px;
+  margin-top:8px;
   padding:10px;
   background:#000;
   border:1px solid #0ff;
@@ -86,8 +88,10 @@ input{
 </head>
 
 <body>
-<div class="container">
 
+<canvas id="bg"></canvas>
+
+<div class="container">
 <h1>NEXUS-X</h1>
 <div class="status">SYSTEM ONLINE • INVENTOR: NAMISH</div>
 
@@ -95,47 +99,93 @@ input{
 <button class="btn" onclick="openLink('https://www.facebook.com/RDKDAVSchoolOfficial')">📘 School Facebook</button>
 <button class="btn" onclick="openLink('https://www.instagram.com/rdkdavschoolofficial/')">📸 School Instagram</button>
 
+<button class="btn" onclick="openLink('https://www.instagram.com/itz_namish.12/')">👤 Inventor Instagram</button>
+<button class="btn" onclick="openLink('https://www.facebook.com/NamishProject')">🌐 Inventor Facebook</button>
 <button class="btn" onclick="openLink('https://www.youtube.com/@Namish_Sumit')">🎥 Inventor YouTube</button>
 
 <div class="terminal" id="terminal">
-> System initialized...<br>
+> NEXUS-X Booting...<br>
+> AI Core Loaded<br>
 > Awaiting command...
 </div>
 
-<input placeholder="Type command..." onkeydown="handleCommand(event)">
-
+<input placeholder="Type or use voice command" onkeydown="handleCommand(event)">
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.155/build/three.min.js"></script>
+
 <script>
+// ---------- 3D BACKGROUND ----------
+const canvas=document.getElementById("bg");
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+camera.position.z=3;
+
+const geometry=new THREE.IcosahedronGeometry(1,1);
+const material=new THREE.MeshStandardMaterial({color:0x00ffff,wireframe:true});
+const mesh=new THREE.Mesh(geometry,material);
+scene.add(mesh);
+
+const light=new THREE.PointLight(0x00ffff,1);
+light.position.set(5,5,5);
+scene.add(light);
+
+function animate(){
+  requestAnimationFrame(animate);
+  mesh.rotation.x+=0.003;
+  mesh.rotation.y+=0.004;
+  renderer.render(scene,camera);
+}
+animate();
+
+// ---------- TERMINAL ----------
+const terminal=document.getElementById("terminal");
+
+function log(msg){
+  terminal.innerHTML+=msg+"<br>";
+  terminal.scrollTop=terminal.scrollHeight;
+}
+
 function openLink(url){
-  log("> Opening link...");
+  log("> Opening external module...");
   window.open(url,'_blank');
 }
 
-function log(text){
-  const t=document.getElementById("terminal");
-  t.innerHTML+=text+"<br>";
-  t.scrollTop=t.scrollHeight;
+// ---------- AI CORE ----------
+function aiReply(cmd){
+  if(cmd.includes("inventor")) return "Inventor: Namish • Student Innovator";
+  if(cmd.includes("school")) return "R.D. Khosla DAV Model Sr. Sec. School";
+  if(cmd.includes("status")) return "All systems operational";
+  if(cmd.includes("unlock")) return "⚠ Access Granted: SECRET MODE ENABLED";
+  if(cmd.includes("help")) return "Commands: inventor, school, status, unlock";
+  return "AI: Command not recognized.";
 }
 
+// ---------- COMMAND HANDLER ----------
 function handleCommand(e){
   if(e.key==="Enter"){
     const cmd=e.target.value.toLowerCase();
-    log("> "+cmd);
     e.target.value="";
-
-    if(cmd.includes("inventor")){
-      log("Inventor: Namish • Student Innovator");
-    }else if(cmd.includes("youtube")){
-      openLink("https://www.youtube.com/@rdkdavschoolofficial");
-    }else if(cmd.includes("help")){
-      log("Commands: inventor, youtube, facebook, instagram");
-    }else{
-      log("Unknown command.");
-    }
+    log("> "+cmd);
+    log(aiReply(cmd));
   }
+}
+
+// ---------- VOICE CONTROL ----------
+if('webkitSpeechRecognition' in window){
+  const rec=new webkitSpeechRecognition();
+  rec.continuous=true;
+  rec.onresult=e=>{
+    const txt=e.results[e.results.length-1][0].transcript.toLowerCase();
+    log("> [voice] "+txt);
+    log(aiReply(txt));
+  };
+  rec.start();
 }
 </script>
 
 </body>
-</html>
+  </html>
