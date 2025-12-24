@@ -27,7 +27,6 @@ html,body{
   overflow-x:hidden;
 }
 
-/* Background */
 .bg{
   position:fixed;inset:0;
   background:
@@ -40,19 +39,17 @@ html,body{
   to{transform:translateY(-40px)}
 }
 
-/* Navbar */
 nav{
   position:fixed;top:0;width:100%;
-  padding:15px 30px;
+  padding:15px 20px;
   backdrop-filter:blur(15px);
   background:#05060faa;
   display:flex;justify-content:space-between;
   z-index:10;
 }
 nav h1{font-family:Orbitron;color:var(--accent)}
-nav a{color:white;margin-left:20px;text-decoration:none}
+nav a{color:white;margin-left:15px;text-decoration:none;font-weight:500}
 
-/* Hero */
 .hero{
   min-height:100vh;
   display:flex;
@@ -60,95 +57,88 @@ nav a{color:white;margin-left:20px;text-decoration:none}
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding-top:100px;
+  padding-top:80px;
 }
 .hero h2{
   font-family:Orbitron;
-  font-size:3.2rem;
+  font-size:3rem;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-.hero p{max-width:600px;margin-top:15px;color:var(--muted)}
+.hero p{max-width:500px;margin-top:15px;color:var(--muted)}
 .btn{
-  margin-top:25px;
-  padding:14px 36px;
-  border:none;
-  border-radius:40px;
+  margin-top:20px;
+  padding:12px 30px;
+  border:none;border-radius:40px;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
-  font-weight:700;
-  cursor:pointer;
-  color:black;
+  font-weight:700;cursor:pointer;color:black;
 }
 
-/* Sections */
-section{padding:100px 20px;display:flex;justify-content:center}
-.container{max-width:1100px;width:100%}
+section{padding:80px 15px;display:flex;justify-content:center}
+.container{max-width:1000px;width:100%}
 
-/* Cards */
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
 }
 .card{
   background:var(--card);
   backdrop-filter:blur(20px);
-  padding:25px;
+  padding:20px;
   border-radius:20px;
-  box-shadow:0 0 30px #00000080;
+  box-shadow:0 0 20px #00000080;
 }
 
-/* Chat */
 .chatbox{
   background:#070b26;
-  padding:25px;
+  padding:20px;
   border-radius:20px;
 }
 #chat{
-  height:350px;
+  height:300px;
   overflow-y:auto;
-  margin-bottom:15px;
+  margin-bottom:12px;
 }
-.msg{margin:10px 0;line-height:1.4}
+.msg{margin:8px 0;line-height:1.4}
 .user{color:var(--accent)}
 .bot{color:var(--accent2)}
 
 input,select{
   width:100%;
-  padding:14px;
+  padding:12px;
   border-radius:25px;
-  border:none;
-  outline:none;
+  border:none;outline:none;
   margin-bottom:10px;
+  font-size:1rem;
 }
 
-/* Social */
 .socials a{
-  margin:10px;
-  padding:12px 22px;
+  margin:8px;
+  padding:10px 18px;
   display:inline-block;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   color:black;
   border-radius:30px;
   text-decoration:none;
-  font-weight:700;
+  font-weight:600;
+  font-size:0.9rem;
 }
 
-/* Points */
 #points{
   position:fixed;
-  top:70px;
-  right:20px;
+  top:60px;
+  right:15px;
   background:var(--points);
   color:black;
-  padding:10px 15px;
+  padding:8px 12px;
   border-radius:15px;
-  font-weight:800;
+  font-weight:700;
   z-index:10;
 }
 
-footer{text-align:center;padding:30px;color:var(--muted)}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:0.85rem;}
 </style>
 </head>
 
@@ -227,74 +217,76 @@ footer{text-align:center;padding:30px;color:var(--muted)}
 <footer>© 2025 NEXUS AI • Created by Namish</footer>
 
 <script>
-/*
-⚠️ IMPORTANT:
-Do NOT put real API key here in final product.
-This fetch should point to your BACKEND later.
-*/
-const BACKEND_URL = "http://localhost:3000/ask";
+const BACKEND_URL = "https://your-replit-project.repl.co/ask"; // REPLACE with your backend
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const mode = document.getElementById("mode");
+const synth = window.speechSynthesis;
 
-const chat=document.getElementById("chat");
-const input=document.getElementById("input");
-const mode=document.getElementById("mode");
-const synth=window.speechSynthesis;
+let points = Number(localStorage.getItem("points")) || 0;
+let memory = JSON.parse(localStorage.getItem("memory")) || {};
 
-let points=Number(localStorage.getItem("points"))||0;
-let memory=JSON.parse(localStorage.getItem("memory"))||{};
-
-document.getElementById("points").textContent="Points: "+points;
+document.getElementById("points").textContent = "Points: "+points;
 
 if(!memory.name){
-  const n=prompt("Welcome! What is your name?");
-  if(n){memory.name=n;localStorage.setItem("memory",JSON.stringify(memory))}
+  const n = prompt("Welcome! What is your name?");
+  if(n){memory.name = n; localStorage.setItem("memory",JSON.stringify(memory))}
 }
 
+// Add message to chat
 function addMsg(type,text){
-  chat.innerHTML+=`<div class="msg ${type}">${type==="user"?"🧑":"🤖"} ${text}</div>`;
-  chat.scrollTop=chat.scrollHeight;
+  chat.innerHTML += `<div class="msg ${type}">${type==="user"?"🧑":"🤖"} ${text}</div>`;
+  chat.scrollTop = chat.scrollHeight;
 }
 
+// Send question to backend
 async function askAI(question){
   addMsg("user",question);
-  input.value="";
+  input.value = "";
 
-  const res = await fetch(BACKEND_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      message:question,
-      mode:mode.value,
-      name:memory.name || "Student"
-    })
-  });
+  try{
+    const res = await fetch(BACKEND_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        message: question,
+        mode: mode.value,
+        name: memory.name || "Student"
+      })
+    });
+    const data = await res.json();
+    const reply = data.reply || "Try again.";
+    addMsg("bot",reply);
+    speak(reply);
 
-  const data = await res.json();
-  const reply = data.reply || "Try again.";
+    points += 5;
+    localStorage.setItem("points",points);
+    document.getElementById("points").textContent = "Points: "+points;
 
-  addMsg("bot",reply);
-  speak(reply);
-
-  points+=5;
-  localStorage.setItem("points",points);
-  document.getElementById("points").textContent="Points: "+points;
+  }catch(e){
+    addMsg("bot","Error connecting to AI backend.");
+  }
 }
 
+// Text-to-speech
 function speak(text){
-  const u=new SpeechSynthesisUtterance(text);
-  u.rate=1;
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 1;
   synth.speak(u);
 }
 
+// Send on Enter
 function send(e){
   if(e.key==="Enter" && input.value.trim()){
     askAI(input.value.trim());
   }
 }
 
+// Voice input
 function voice(){
-  const rec=new(window.SpeechRecognition||webkitSpeechRecognition)();
+  const rec = new (window.SpeechRecognition || webkitSpeechRecognition)();
   rec.lang="en-IN";
-  rec.onresult=e=>askAI(e.results[0][0].transcript);
+  rec.onresult = e => askAI(e.results[0][0].transcript);
   rec.start();
 }
 </script>
